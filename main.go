@@ -1,13 +1,18 @@
 package main
 
 import (
-	"crypto/rand"
+	"encoding/base64"
 	"fmt"
+	"math/rand"
+	"runtime"
+
 	"github.com/golang/protobuf/proto"
 	"github.com/martinlindhe/base36"
 )
 
 func main() {
+	runtime.GOMAXPROCS(1)
+
 	vec := make([]float32, 300)
 
 	for i := 0; i < 300; i++ {
@@ -18,32 +23,32 @@ func main() {
 		}
 	}
 
-	//fmt.Println("[]float32 Slice:")
-	//fmt.Println(vec)
-
 	dVec := &DocumentVector{
 		Vector: vec,
 	}
 
 	dVecM, _ := proto.Marshal(dVec)
-	//fmt.Println("Marshal'd Vector...")
-	//fmt.Println(dVecM)
 
-	dVecS := base36.EncodeBytes(dVecM)
-	fmt.Println("Serialized...")
-	fmt.Println(dVecS)
+	dVec64 := base64.URLEncoding.EncodeToString(dVecM)
+
+	dVec36 := base36.EncodeBytes(dVecM)
+	fmt.Printf("Serialized 36... (%v)\n\n", len(dVec36))
+	fmt.Println(dVec36)
+	fmt.Println("--------------------------------------------------------------------------")
+	fmt.Printf("Serialized 64... (%v)\n\n", len(dVec64))
+	fmt.Println(dVec64)
 }
 
 func randFloat32() (f float32) {
 	f = 50
-	x := make([]byte, 1)
-	y := make([]byte, 1)
+
+	var x float32
+	var y float32
 
 	for f < float32(-1) || f > float32(1) {
-		rand.Read(x)
-		rand.Read(y)
-
-		f = float32(x[0]) / float32(y[0])
+		x = rand.Float32()
+		y = rand.Float32()
+		f = x / y
 	}
 
 	return f
