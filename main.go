@@ -4,6 +4,7 @@ import (
 	"crypto/rand"
 	"encoding/base64"
 	"fmt"
+	"log"
 	"runtime"
 
 	"github.com/golang/protobuf/proto"
@@ -30,8 +31,8 @@ func main() {
 	dVecM, _ := proto.Marshal(dVec)
 
 	dVec64 := base64.URLEncoding.EncodeToString(dVecM)
-
 	dVec36 := base36.EncodeBytes(dVecM)
+
 	fmt.Printf("Serialized 36... (%v)\n\n", len(dVec36))
 	fmt.Println(dVec36)
 	fmt.Println("--------------------------------------------------------------------------")
@@ -45,8 +46,14 @@ func randFloat32() (f float32) {
 	y := make([]byte, 1)
 
 	for f < float32(-1) || f > float32(1) {
-		rand.Read(x)
-		rand.Read(y)
+		n, err := rand.Read(x)
+		if err != nil || n != 1 {
+			log.Panicln(err)
+		}
+		_, err = rand.Read(y)
+		if err != nil || n != 1 {
+			log.Panicln(err)
+		}
 
 		f = float32(x[0]) / float32(y[0])
 	}
