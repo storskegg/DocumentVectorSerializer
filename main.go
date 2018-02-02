@@ -1,9 +1,9 @@
 package main
 
 import (
+	"crypto/rand"
 	"encoding/base64"
 	"fmt"
-	"math/rand"
 	"runtime"
 
 	"github.com/golang/protobuf/proto"
@@ -41,14 +41,14 @@ func main() {
 
 func randFloat32() (f float32) {
 	f = 50
-
-	var x float32
-	var y float32
+	x := make([]byte, 1)
+	y := make([]byte, 1)
 
 	for f < float32(-1) || f > float32(1) {
-		x = rand.Float32()
-		y = rand.Float32()
-		f = x / y
+		rand.Read(x)
+		rand.Read(y)
+
+		f = float32(x[0]) / float32(y[0])
 	}
 
 	return f
