@@ -1,5 +1,12 @@
+# vendor directory
+vendor/
+
+# ide files
 .idea/
 
+# stoopid os files
 .DS_Store
 
+# built executables
 DocumentVectorSerializer
+DocumentVectorSerializer.exe
