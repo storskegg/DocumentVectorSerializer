@@ -5,3 +5,4 @@ import:
   subpackages:
   - proto
 - package: github.com/martinlindhe/base36
+- package: github.com/eknkc/basex

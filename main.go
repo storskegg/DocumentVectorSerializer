@@ -5,15 +5,18 @@ import (
 	"encoding/base64"
 	"fmt"
 	"log"
-	"runtime"
 
+	"github.com/eknkc/basex"
 	"github.com/golang/protobuf/proto"
-	"github.com/martinlindhe/base36"
+)
+
+const (
+	base36dict = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	base62dict = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	baseXdict  = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,.;:|[]{}`~!@#$%^&*()-_=+?'\"\\"
 )
 
 func main() {
-	runtime.GOMAXPROCS(1)
-
 	vec := make([]float32, 300)
 
 	for i := 0; i < 300; i++ {
@@ -30,14 +33,26 @@ func main() {
 
 	dVecM, _ := proto.Marshal(dVec)
 
+	base62, _ := basex.NewEncoding(base62dict)
+	base36, _ := basex.NewEncoding(base36dict)
+	baseX, _ := basex.NewEncoding(baseXdict)
+
 	dVec64 := base64.URLEncoding.EncodeToString(dVecM)
-	dVec36 := base36.EncodeBytes(dVecM)
+	dVec62 := base62.Encode(dVecM)
+	dVec36 := base36.Encode(dVecM)
+	dVecX := baseX.Encode(dVecM)
 
 	fmt.Printf("Serialized 36... (%v)\n\n", len(dVec36))
 	fmt.Println(dVec36)
 	fmt.Println("--------------------------------------------------------------------------")
+	fmt.Printf("Serialized 62... (%v)\n\n", len(dVec62))
+	fmt.Println(dVec64)
+	fmt.Println("--------------------------------------------------------------------------")
 	fmt.Printf("Serialized 64... (%v)\n\n", len(dVec64))
 	fmt.Println(dVec64)
+	fmt.Println("--------------------------------------------------------------------------")
+	fmt.Printf("Serialized X... (%v)\n\n", len(dVecX))
+	fmt.Println(dVecX)
 }
 
 func randFloat32() (f float32) {
