@@ -2,6 +2,14 @@
 
 
 [[projects]]
+  digest = "1:9dd07599524c6a9e4316f76512271c7a9fb5c214d67788245dafaf4624fbe981"
+  name = "github.com/eknkc/basex"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "8c16d1cfd7c84e830da85091ad46cb1e36cd44a3"
+  version = "v1.0.0"
+
+[[projects]]
   digest = "1:573ca21d3669500ff845bdebee890eb7fc7f0f50c59f2132f2a0c6b03d85086a"
   name = "github.com/golang/protobuf"
   packages = ["proto"]
@@ -9,20 +17,12 @@
   revision = "6c65a5562fc06764971b7c5d05c76c75e84bdbf7"
   version = "v1.3.2"
 
-[[projects]]
-  digest = "1:46a3bc40e9de7fc623b5bc904abbb36ca8718fc5f644786458c46fd43f6a8e25"
-  name = "github.com/martinlindhe/base36"
-  packages = ["."]
-  pruneopts = "UT"
-  revision = "7c6542dfbb41505111dde1f321eb5d5002f5fb88"
-  version = "v1.0.0"
-
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
+    "github.com/eknkc/basex",
     "github.com/golang/protobuf/proto",
-    "github.com/martinlindhe/base36",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1
